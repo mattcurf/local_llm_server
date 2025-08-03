@@ -1,0 +1,38 @@
+services:
+  llama-server:
+    image: ghcr.io/mostlygeek/llama-swap:cuda
+    container_name: llama-server
+    restart: always
+    ports:
+      - 8080:8080
+    volumes:
+      - .//unsloth:/models/
+      - ./config.yaml:/app/config.yaml
+    deploy:
+      resources:
+        reservations:
+          devices:
+          - capabilities: ["gpu"]
+            driver: nvidia
+            count: all
+  webui:
+    image: ghcr.io/open-webui/open-webui
+    container_name: webui
+    volumes:
+      - webui:/app/backend/data
+    depends_on:
+      - llama-server 
+    ports:
+      - 3000:3000 
+    environment:
+      - WEBUI_AUTH=False
+      - PORT=3000
+      - ENABLE_OPENAI_API=True
+      - OPENAI_API_BASE_URL=http://llama-server:8080/v1
+      - ENABLE_OLLAMA_API=False
+    extra_hosts:
+      - host.docker.internal:host-gateway
+    restart: unless-stopped
+volumes:
+  webui: {}
+  llama-server: {}
