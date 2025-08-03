@@ -18,15 +18,15 @@ System setup with:
 ## Steps for setup and execution
 
 1. Download ~900GB of LLM models:
-`
+```bash
 $ pip install -r requirements.txt
 $ python ./download_qwen3.py 
-`
+```
 
 2. Run LLM server
-`
+```bash
 $ docker compose up -d
-`
+```
 
 3. Connect to web UI at http://localhost:3000
 
