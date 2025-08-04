@@ -6,7 +6,7 @@ An illustration how to setup a local LLM server with OpenWEB UI interface. Run 3
 * Intel/AMD system with at least 24 cores
 * 256 GB DDR5
 * NVIDIA 5090 w/ 32GB VRAM
-* 1TB free storage space for models
+* 500GB free storage space for models
 
 ## Prerequisites 
 
@@ -17,7 +17,7 @@ System setup with:
  
 ## Steps for setup and execution
 
-1. Download ~900GB of LLM models:
+1. Download ~468GB of LLM models:
 ```bash
 $ pip install -r requirements.txt
 $ python ./download_qwen3.py 
