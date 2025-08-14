@@ -35,3 +35,4 @@ $ docker compose up -d
 * https://github.com/mostlygeek/llama-swap
 * https://docs.unsloth.ai/basics/qwen3-coder-how-to-run-locally
 * https://chat.z.ai
+* https://docs.unsloth.ai/basics/gpt-oss-how-to-run-and-fine-tune
