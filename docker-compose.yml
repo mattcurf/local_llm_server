@@ -6,7 +6,7 @@ services:
     ports:
       - 8080:8080
     volumes:
-      - .//unsloth:/models/
+      - ./unsloth:/models/
       - ./config.yaml:/app/config.yaml
     deploy:
       resources:

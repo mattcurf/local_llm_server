@@ -20,7 +20,7 @@ System setup with:
 1. Download ~468GB of LLM models:
 ```bash
 $ pip install -r requirements.txt
-$ python ./download_qwen3.py 
+$ python ./download_models.py 
 ```
 
 2. Run LLM server
@@ -34,3 +34,4 @@ $ docker compose up -d
 * https://openwebui.com
 * https://github.com/mostlygeek/llama-swap
 * https://docs.unsloth.ai/basics/qwen3-coder-how-to-run-locally
+* https://chat.z.ai

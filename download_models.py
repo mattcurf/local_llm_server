@@ -1,5 +1,5 @@
 import os
-os.environ["HF_HUB_ENABLE_HF_TRANSFER"] = "0" 
+os.environ["HF_HUB_ENABLE_HF_TRANSFER"] = "1" 
 
 from huggingface_hub import snapshot_download
 
@@ -39,3 +39,14 @@ snapshot_download(
     allow_patterns = ["*UD-Q2_K_XL*"],
 )
 
+snapshot_download(
+    repo_id = "unsloth/GLM-4-32B-0414-GGUF",
+    local_dir = "unsloth/GLM-4-32B-0414-GGUF",
+    allow_patterns = ["*Q4_K_XL*"],
+)
+
+snapshot_download(
+    repo_id = "unsloth/gpt-oss-20b-GGUF",
+    local_dir = "unsloth/gpt-oss-20b-GGUF",
+    allow_patterns = ["*Q8_K_XL*"],
+)

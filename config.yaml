@@ -5,33 +5,105 @@ startPort: 10001
 macros:
   "llama-server-base": |
     /app/llama-server \
-    --n_gpu_layers 99 \
-    -c 4096 \
-    --port ${PORT}
+    --port ${PORT} \
+    --no-warmup \
+    --threads -1 \
+    -fa
+
+  "llama-qwen-instruct": |
+    /app/llama-server \
+    --port ${PORT} \
+    --no-warmup \
+    --threads -1 \
+    -fa \
+    --ctx-size 262144 \
+    --n-gpu-layers 99 \
+    -ctk q4_0 \
+    -ctv q4_0 \
+    --temp 0.7 \
+    --min-p 0.0 \
+    --top-p 0.8 \
+    --top-k 20
+
+  "llama-qwen-thinking": |
+    /app/llama-server \
+    --port ${PORT} \
+    --no-warmup \
+    --threads -1 \
+    -fa \
+    --ctx-size 262144 \
+    --n-gpu-layers 99 \
+    -ctk q4_0 \
+    -ctv q4_0 \
+    --temp 0.6 \
+    --min-p 0.0 \
+    --top-p 0.95 \
+    --top-k 20
 
 models:
   "qwen3-30b-instruct-q4":
-    cmd: /app/llama-server --port ${PORT} --threads -1 --ctx-size 262144 --n-gpu-layers 99 -fa -ctk q4_0 -ctv q4_0 --temp 0.7 --min-p 0.0 --top-p 0.8 --top-k 20 --model /models/Qwen3-30B-A3B-Instruct-2507-GGUF/Qwen3-30B-A3B-Instruct-2507-UD-Q4_K_XL.gguf
+    cmd: |
+      ${llama-qwen-instruct}
+      --model /models/Qwen3-30B-A3B-Instruct-2507-GGUF/Qwen3-30B-A3B-Instruct-2507-UD-Q4_K_XL.gguf
     ttl: 300 
 
   "qwen3-30b-thinking-q4":
-    cmd: /app/llama-server --port ${PORT} --threads -1 --ctx-size 262144 --n-gpu-layers 99 -fa -ctk q4_0 -ctv q4_0 --temp 0.6 --min-p 0.0 --top-p 0.95  --top-k 20 --model /models/Qwen3-30B-A3B-Thinking-2507-GGUF/Qwen3-30B-A3B-Thinking-2507-UD-Q4_K_XL.gguf
+    cmd: |
+      ${llama-qwen-thinking} 
+      --model /models/Qwen3-30B-A3B-Thinking-2507-GGUF/Qwen3-30B-A3B-Thinking-2507-UD-Q4_K_XL.gguf
     ttl: 300
 
   "qwen3-235b-instruct-q4":
-    cmd: /app/llama-server --port ${PORT} --threads -1 --ctx-size 262144 --n-gpu-layers 99 -ot ".ffn_.*_exps.=CPU" -fa -ctk q4_0 -ctv q4_0 --temp 0.7 --min-p 0.0 --top-p 0.8  --top-k 20 --min_p 0.0 --model /models/Qwen3-235B-A22B-Instruct-2507-GGUF/UD-Q4_K_XL/Qwen3-235B-A22B-Instruct-2507-UD-Q4_K_XL-00001-of-00003.gguf 
+    cmd: |
+      ${llama-qwen-instruct}
+      -ot ".ffn_.*_exps.=CPU" \
+      --model /models/Qwen3-235B-A22B-Instruct-2507-GGUF/UD-Q4_K_XL/Qwen3-235B-A22B-Instruct-2507-UD-Q4_K_XL-00001-of-00003.gguf 
     ttl: 300
 
   "qwen3-235b-thinking-q4":
-    cmd: /app/llama-server --port ${PORT} --threads -1 --ctx-size 262144 --n-gpu-layers 99 -ot ".ffn_.*_exps.=CPU" -fa -ctk q4_0 -ctv q4_0 --temp 0.6 --min-p 0.0 --top-p 0.95 --top-k 20 --min_p 0.0 --model /models/Qwen3-235B-A22B-Thinking-2507-GGUF/UD-Q4_K_XL/Qwen3-235B-A22B-Thinking-2507-UD-Q4_K_XL-00001-of-00003.gguf 
+    cmd: |
+      ${llama-qwen-thinking} 
+      -ot ".ffn_.*_exps.=CPU" \
+      --model /models/Qwen3-235B-A22B-Thinking-2507-GGUF/UD-Q4_K_XL/Qwen3-235B-A22B-Thinking-2507-UD-Q4_K_XL-00001-of-00003.gguf 
     ttl: 300
 
   "qwen3-30b-coder-q4":
-    cmd: /app/llama-server --port ${PORT} --threads -1 --ctx-size 65536 --n-gpu-layers 99 -fa -ctk q4_0 -ctv q4_0 --repeat-penalty 1.05 --temp 0.7 --min-p 0.0 --top-p 0.8  --top-k 20 --model /models/Qwen3-Coder-30B-A3B-Instruct-GGUF/Qwen3-Coder-30B-A3B-Instruct-UD-Q4_K_XL.gguf 
+    cmd: |
+      ${llama-qwen-instruct}
+      --repeat-penalty 1.05 \
+      --model /models/Qwen3-Coder-30B-A3B-Instruct-GGUF/Qwen3-Coder-30B-A3B-Instruct-UD-Q4_K_XL.gguf 
     ttl: 300
 
   "qwen3-480Bb-coder-q2":
-    cmd: /app/llama-server --port ${PORT} --threads -1 --ctx-size 65536 --n-gpu-layers 99 -ot ".ffn_.*_exps.=CPU" -fa -ctk q4_0 -ctv q4_0 --repeat-penalty 1.05 --temp 0.7 --min-p 0.0 --top-p 0.8  --top-k 20 --model /models/Qwen3-Coder-480B-A35B-Instruct-GGUF/UD-Q2_K_XL/Qwen3-Coder-480B-A35B-Instruct-UD-Q2_K_XL-00001-of-00004.gguf 
+    cmd: |
+      ${llama-qwen-instruct}
+      --repeat-penalty 1.05 \
+      -ot ".ffn_.*_exps.=CPU" \
+      --model /models/Qwen3-Coder-480B-A35B-Instruct-GGUF/UD-Q2_K_XL/Qwen3-Coder-480B-A35B-Instruct-UD-Q2_K_XL-00001-of-00004.gguf 
+    ttl: 300
+
+  "glm-4-32b-q4":
+    cmd: |
+      ${llama-server-base}
+      --ctx-size 131072 \
+      --n-gpu-layers 99 \
+      -ctk q4_0 \
+      -ctv q4_0 \
+      --jinja \
+      --model /models/GLM-4-32B-0414-GGUF/GLM-4-32B-0414-UD-Q4_K_XL.gguf  
+    ttl: 300
+
+  "gpt-oss-20b":
+    cmd: |
+      ${llama-server-base}
+      --ctx-size 16384 \
+      --n-gpu-layers 99 \
+      --jinja \
+      --temp 1.0 \
+      --min-p 0.0 \
+      --top-p 1.0 \
+      --top-k 0
+      --model /models/gpt-oss-20b-GGUF/gpt-oss-20b-UD-Q8_K_XL.gguf 
     ttl: 300
 
 groups:
@@ -45,3 +117,5 @@ groups:
       - "qwen3-235b-thinking-q4"
       - "qwen3-30b-coder-q4"
       - "qwen3-480b-coder-q2"
+      - "glm-4-32b-q4"
+      - "gpt-oss-20b"
