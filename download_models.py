@@ -45,8 +45,28 @@ snapshot_download(
     allow_patterns = ["*Q4_K_XL*"],
 )
 
+# GPT-oss
 snapshot_download(
     repo_id = "unsloth/gpt-oss-20b-GGUF",
     local_dir = "unsloth/gpt-oss-20b-GGUF",
     allow_patterns = ["*Q8_K_XL*"],
+)
+
+snapshot_download(
+    repo_id = "unsloth/gpt-oss-120b-GGUF",
+    local_dir = "unsloth/gpt-oss-120b-GGUF",
+    allow_patterns = ["*Q8_K_XL*"],
+)
+
+# DeepSeek-V3.1
+snapshot_download(
+    repo_id = "unsloth/DeepSeek-V3.1-GGUF",
+    local_dir = "unsloth/DeepSeek-V3.1-GGUF",
+    allow_patterns = ["*UD-TQ1_0*"], 
+)
+
+snapshot_download(
+    repo_id = "unsloth/DeepSeek-V3.1-GGUF",
+    local_dir = "unsloth/DeepSeek-V3.1-GGUF",
+    allow_patterns = ["*UD-Q2_K_XL*"],
 )

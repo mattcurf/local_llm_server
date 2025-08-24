@@ -40,6 +40,19 @@ macros:
     --top-p 0.95 \
     --top-k 20
 
+  "gpt-oss": |
+    /app/llama-server \
+    --port ${PORT} \
+    --no-warmup \
+    --threads -1 \
+    -fa \
+    --n-gpu-layers 99 \
+    --jinja \
+    --temp 1.0 \
+    --min-p 0.0 \
+    --top-p 1.0 \
+    --top-k 0
+
 models:
   "qwen3-30b-instruct-q4":
     cmd: |
@@ -95,15 +108,46 @@ models:
 
   "gpt-oss-20b":
     cmd: |
+      ${gpt-oss}
+      --ctx-size 16384 \
+      --model /models/gpt-oss-20b-GGUF/gpt-oss-20b-UD-Q8_K_XL.gguf 
+    ttl: 300
+
+  "gpt-oss-120b":
+    cmd: |
+      ${gpt-oss}
+      --ctx-size 262114 \
+      -ot ".ffn_.*_exps.=CPU" \
+      --model /models/gpt-oss-120b-GGUF/UD-Q8_K_XL/gpt-oss-120b-UD-Q8_K_XL-00001-of-00002.gguf
+    ttl: 300
+
+
+  "deepseek-v31-671b-TQ1":
+    cmd: |
       ${llama-server-base}
       --ctx-size 16384 \
-      --n-gpu-layers 99 \
+      -ot ".ffn_.*_exps.=CPU" \
+      --model /models/DeepSeek-V3.1-GGUF/DeepSeek-V3.1-UD-TQ1_0.gguf
+      --cache-type-k q4_0 \
       --jinja \
-      --temp 1.0 \
-      --min-p 0.0 \
-      --top-p 1.0 \
-      --top-k 0
-      --model /models/gpt-oss-20b-GGUF/gpt-oss-20b-UD-Q8_K_XL.gguf 
+      --n-gpu-layers 99 \
+      --temp 0.6 \
+      --top_p 0.95 \
+      --min_p 0.01 
+    ttl: 300
+
+  "deepseek-v31-671b-Q2":
+    cmd: |
+      ${llama-server-base}
+      --ctx-size 16384 \
+      -ot ".ffn_.*_exps.=CPU" \
+      --model /models/DeepSeek-V3.1-GGUF/UD-Q2_K_XL/DeepSeek-V3.1-UD-Q2_K_XL-00001-of-00006.gguf \
+      --cache-type-k q4_0 \
+      --jinja \
+      --n-gpu-layers 99 \
+      --temp 0.6 \
+      --top_p 0.95 \
+      --min_p 0.01 
     ttl: 300
 
 groups:
@@ -119,3 +163,6 @@ groups:
       - "qwen3-480b-coder-q2"
       - "glm-4-32b-q4"
       - "gpt-oss-20b"
+      - "gpt-oss-120b"
+      - "deepseek-v31-671b-TQ1"
+      - "deepseek-v31-671b"
