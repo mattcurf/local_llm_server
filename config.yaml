@@ -39,6 +39,18 @@ macros:
     --min-p 0.0 \
     --top-p 0.95 \
     --top-k 20
+ 
+  "glm": |
+    /app/llama-server \
+    --port ${PORT} \
+    --no-warmup \
+    --threads -1 \
+    -fa \
+    --ctx-size 131072 \
+    --n-gpu-layers 99 \
+    -ctk q4_0 \
+    -ctv q4_0 \
+    --jinja 
 
   "gpt-oss": |
     /app/llama-server \
@@ -97,13 +109,22 @@ models:
 
   "glm-4-32b-q4":
     cmd: |
-      ${llama-server-base}
-      --ctx-size 131072 \
-      --n-gpu-layers 99 \
-      -ctk q4_0 \
-      -ctv q4_0 \
-      --jinja \
+      ${glm}
       --model /models/GLM-4-32B-0414-GGUF/GLM-4-32B-0414-UD-Q4_K_XL.gguf  
+    ttl: 300
+
+  "glm-4.5-air-106b-q4":
+    cmd: |
+      ${glm}
+      -ot ".ffn_.*_exps.=CPU" \
+      --model /models/GLM-4.5-Air-GGUF/UD-Q4_K_XL/GLM-4.5-Air-UD-Q4_K_XL-00001-of-00002.gguf
+    ttl: 300
+
+  "glm-4.5-355b-q4":
+    cmd: |
+      ${glm}
+      -ot ".ffn_.*_exps.=CPU" \
+      --model /models/GLM-4.5-GGUF/UD-Q4_K_XL/GLM-4.5-UD-Q4_K_XL-00001-of-00005.gguf
     ttl: 300
 
   "gpt-oss-20b":
@@ -122,7 +143,7 @@ models:
     ttl: 300
 
 
-  "deepseek-v31-671b-TQ1":
+  "deepseek-v31-671b-tq1":
     cmd: |
       ${llama-server-base}
       --ctx-size 16384 \
@@ -136,7 +157,7 @@ models:
       --min_p 0.01 
     ttl: 300
 
-  "deepseek-v31-671b-Q2":
+  "deepseek-v31-671b-q2":
     cmd: |
       ${llama-server-base}
       --ctx-size 16384 \
@@ -162,7 +183,9 @@ groups:
       - "qwen3-30b-coder-q4"
       - "qwen3-480b-coder-q2"
       - "glm-4-32b-q4"
+      - "glm-4.5-air-106b-q4"
+      - "glm-4.5-355b-q4"
       - "gpt-oss-20b"
       - "gpt-oss-120b"
-      - "deepseek-v31-671b-TQ1"
-      - "deepseek-v31-671b"
+      - "deepseek-v31-671b-tq1"
+      - "deepseek-v31-671b-q2"

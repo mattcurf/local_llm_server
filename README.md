@@ -6,7 +6,7 @@ An illustration how to setup a local LLM server with OpenWEB UI interface. Run 3
 * Intel/AMD system with at least 24 cores
 * 256 GB DDR5
 * NVIDIA 5090 w/ 32GB VRAM
-* 500GB free storage space for models
+* 1.2TB free storage space for models
 
 ## Prerequisites 
 
@@ -17,7 +17,7 @@ System setup with:
  
 ## Steps for setup and execution
 
-1. Download ~468GB of LLM models:
+1. Download ~1.2TB of LLM models:
 ```bash
 $ pip install -r requirements.txt
 $ python ./download_models.py 
@@ -28,11 +28,12 @@ $ python ./download_models.py
 $ docker compose up -d
 ```
 
-3. Connect to web UI at http://localhost:3000
+3. Connect to web UI at http://localhost:3000 (a control panel for llama-swap will be at http://localhost:8080)
 
 ## References
 * https://openwebui.com
 * https://github.com/mostlygeek/llama-swap
 * https://docs.unsloth.ai/basics/qwen3-coder-how-to-run-locally
-* https://chat.z.ai
 * https://docs.unsloth.ai/basics/gpt-oss-how-to-run-and-fine-tune
+* https://docs.unsloth.ai/basics/gpt-oss-how-to-run-and-fine-tune
+* https://chat.z.ai

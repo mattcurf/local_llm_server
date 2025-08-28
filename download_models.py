@@ -39,9 +39,22 @@ snapshot_download(
     allow_patterns = ["*UD-Q2_K_XL*"],
 )
 
+# GLM
 snapshot_download(
     repo_id = "unsloth/GLM-4-32B-0414-GGUF",
     local_dir = "unsloth/GLM-4-32B-0414-GGUF",
+    allow_patterns = ["*Q4_K_XL*"],
+)
+
+snapshot_download(
+    repo_id = "unsloth/GLM-4.5-Air-GGUF",
+    local_dir = "unsloth/GLM-4.5-Air-GGUF",
+    allow_patterns = ["*Q4_K_XL*"],
+)
+
+snapshot_download(
+    repo_id = "unsloth/GLM-4.5-GGUF",
+    local_dir = "unsloth/GLM-4.5-GGUF",
     allow_patterns = ["*Q4_K_XL*"],
 )
 
