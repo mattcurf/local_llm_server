@@ -83,3 +83,10 @@ snapshot_download(
     local_dir = "unsloth/DeepSeek-V3.1-GGUF",
     allow_patterns = ["*UD-Q2_K_XL*"],
 )
+
+snapshot_download(
+    repo_id = "unsloth/grok-2-GGUF",
+    local_dir = "unsloth/grok-2-GGUF",
+    allow_patterns = ["*Q4_K_XL*"],
+)
+

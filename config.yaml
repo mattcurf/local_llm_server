@@ -8,6 +8,7 @@ macros:
     --port ${PORT} \
     --no-warmup \
     --threads -1 \
+    --flash-attn on
 
   "llama-qwen-instruct": |
     /usr/local/bin/llama-server \
@@ -166,6 +167,19 @@ models:
       --min_p 0.01 
     ttl: 300
 
+  "grok-2-q4":
+    cmd: |
+      ${llama-server-base}
+      --model /models/grok-2-GGUF/UD-Q4_K_XL/grok-2-UD-Q4_K_XL-00001-of-00004.gguf 
+      --flash-attn off \
+      --jinja \
+      --n-gpu-layers 0 \
+      --temp 1.0 \
+      --top_p 0.95 \
+      --min_p 0.01 \
+      --ctx-size 16384 
+    ttl: 300
+
 groups:
   "main-swap-group":
     swap: true
@@ -184,6 +198,7 @@ groups:
       - "gpt-oss-120b"
       - "deepseek-v31-671b-tq1"
       - "deepseek-v31-671b-q2"
+      - "grok-2-q4"
 
 hooks:
   on_startup:
