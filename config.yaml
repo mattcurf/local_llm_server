@@ -97,7 +97,7 @@ models:
       ${llama-qwen-instruct}
       --repeat-penalty 1.05 \
       --model /models/Qwen3-Coder-30B-A3B-Instruct-GGUF/Qwen3-Coder-30B-A3B-Instruct-UD-Q4_K_XL.gguf 
-    ttl: 300
+    ttl: 86400
 
   "qwen3-480Bb-coder-q2":
     cmd: |
@@ -189,3 +189,8 @@ groups:
       - "gpt-oss-120b"
       - "deepseek-v31-671b-tq1"
       - "deepseek-v31-671b-q2"
+
+hooks:
+  on_startup:
+    preload:
+      - "qwen3-30b-coder-q4"
