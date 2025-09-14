@@ -4,18 +4,17 @@ startPort: 10001
 
 macros:
   "llama-server-base": |
-    /app/llama-server \
+    /usr/local/bin/llama-server \
     --port ${PORT} \
     --no-warmup \
     --threads -1 \
-    -fa
+    --flash-attn on
 
   "llama-qwen-instruct": |
-    /app/llama-server \
+    /usr/local/bin/llama-server \
     --port ${PORT} \
     --no-warmup \
     --threads -1 \
-    -fa \
     --ctx-size 262144 \
     --n-gpu-layers 99 \
     -ctk q4_0 \
@@ -26,11 +25,10 @@ macros:
     --top-k 20
 
   "llama-qwen-thinking": |
-    /app/llama-server \
+    /usr/local/bin/llama-server \
     --port ${PORT} \
     --no-warmup \
     --threads -1 \
-    -fa \
     --ctx-size 262144 \
     --n-gpu-layers 99 \
     -ctk q4_0 \
@@ -41,11 +39,10 @@ macros:
     --top-k 20
  
   "glm": |
-    /app/llama-server \
+    /usr/local/bin/llama-server \
     --port ${PORT} \
     --no-warmup \
     --threads -1 \
-    -fa \
     --ctx-size 131072 \
     --n-gpu-layers 99 \
     -ctk q4_0 \
@@ -53,11 +50,10 @@ macros:
     --jinja 
 
   "gpt-oss": |
-    /app/llama-server \
+    /usr/local/bin/llama-server \
     --port ${PORT} \
     --no-warmup \
     --threads -1 \
-    -fa \
     --n-gpu-layers 99 \
     --jinja \
     --temp 1.0 \
@@ -171,6 +167,19 @@ models:
       --min_p 0.01 
     ttl: 300
 
+  "grok-2-q4":
+    cmd: |
+      ${llama-server-base}
+      --model /models/grok-2-GGUF/UD-Q4_K_XL/grok-2-UD-Q4_K_XL-00001-of-00004.gguf 
+      --flash-attn off \
+      --jinja \
+      --n-gpu-layers 0 \
+      --temp 1.0 \
+      --top_p 0.95 \
+      --min_p 0.01 \
+      --ctx-size 16384 
+    ttl: 300
+
 groups:
   "main-swap-group":
     swap: true
@@ -189,6 +198,7 @@ groups:
       - "gpt-oss-120b"
       - "deepseek-v31-671b-tq1"
       - "deepseek-v31-671b-q2"
+      - "grok-2-q4"
 
 hooks:
   on_startup:
