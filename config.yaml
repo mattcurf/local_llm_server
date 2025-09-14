@@ -4,18 +4,16 @@ startPort: 10001
 
 macros:
   "llama-server-base": |
-    /app/llama-server \
+    /usr/local/bin/llama-server \
     --port ${PORT} \
     --no-warmup \
     --threads -1 \
-    -fa
 
   "llama-qwen-instruct": |
-    /app/llama-server \
+    /usr/local/bin/llama-server \
     --port ${PORT} \
     --no-warmup \
     --threads -1 \
-    -fa \
     --ctx-size 262144 \
     --n-gpu-layers 99 \
     -ctk q4_0 \
@@ -26,11 +24,10 @@ macros:
     --top-k 20
 
   "llama-qwen-thinking": |
-    /app/llama-server \
+    /usr/local/bin/llama-server \
     --port ${PORT} \
     --no-warmup \
     --threads -1 \
-    -fa \
     --ctx-size 262144 \
     --n-gpu-layers 99 \
     -ctk q4_0 \
@@ -41,11 +38,10 @@ macros:
     --top-k 20
  
   "glm": |
-    /app/llama-server \
+    /usr/local/bin/llama-server \
     --port ${PORT} \
     --no-warmup \
     --threads -1 \
-    -fa \
     --ctx-size 131072 \
     --n-gpu-layers 99 \
     -ctk q4_0 \
@@ -53,11 +49,10 @@ macros:
     --jinja 
 
   "gpt-oss": |
-    /app/llama-server \
+    /usr/local/bin/llama-server \
     --port ${PORT} \
     --no-warmup \
     --threads -1 \
-    -fa \
     --n-gpu-layers 99 \
     --jinja \
     --temp 1.0 \

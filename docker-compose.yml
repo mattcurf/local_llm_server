@@ -1,13 +1,15 @@
 services:
   llama-server:
-    image: ghcr.io/mostlygeek/llama-swap:cuda
+    build:
+      context: .
+      dockerfile: Dockerfile
     container_name: llama-server
     restart: always
     ports:
       - 8080:8080
     volumes:
       - ./unsloth:/models/
-      - ./config.yaml:/app/config.yaml
+      - ./config.yaml:/project/config.yaml
     deploy:
       resources:
         reservations:
