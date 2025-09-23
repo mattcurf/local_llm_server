@@ -27,7 +27,7 @@ macros:
     --ctx-size 32768  -ctk q4_0 -ctv q4_0
   "ctx-64k": |
     --ctx-size 65536  -ctk q4_0 -ctv q4_0
-  "ctx-131k": |
+  "ctx-128k": |
     --ctx-size 131072 -ctk q4_0 -ctv q4_0
   "ctx-262k": |
     --ctx-size 262144 -ctk q4_0 -ctv q4_0
@@ -111,7 +111,7 @@ models:
     cmd: |
       ${llama-server-base}
       ${gpu-max}
-      ${ctx-131k}
+      ${ctx-128k}
       --jinja
       --model /models/GLM-4-32B-0414-GGUF/GLM-4-32B-0414-UD-Q4_K_XL.gguf
     ttl: 300
@@ -151,7 +151,7 @@ models:
     cmd: |
       ${llama-server-base}
       ${gpu-none}
-      ${ctx-131k}
+      ${ctx-128k}
       ${ffn-exp-cpu}
       --jinja
       --model /models/gpt-oss-120b-GGUF/UD-Q8_K_XL/gpt-oss-120b-UD-Q8_K_XL-00001-of-00002.gguf
@@ -194,6 +194,17 @@ models:
       --model /models/grok-2-GGUF/UD-Q4_K_XL/grok-2-UD-Q4_K_XL-00001-of-00004.gguf
     ttl: 300
 
+  "magistral-small-2509-q4":
+    cmd: |
+      ${llama-server-base}
+      ${gpu-max}
+      ${ctx-128k}
+      --jinja
+      --special
+      --temp 0.7 --top-k -1 --top-p 0.95
+      --model /models/Magistral-Small-2509-GGUF/Magistral-Small-2509-UD-Q4_K_XL.gguf
+    ttl: 300
+
 groups:
   "main-swap-group":
     swap: true
@@ -213,6 +224,7 @@ groups:
       - "deepseek-v31-671b-tq1"
       - "deepseek-v31-671b-q2"
       - "grok-2-q4"
+      - "magistral-small-2509-q4"
 
 hooks:
   on_startup:

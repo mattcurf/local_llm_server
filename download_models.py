@@ -90,3 +90,8 @@ snapshot_download(
     allow_patterns = ["*Q4_K_XL*"],
 )
 
+snapshot_download(
+    repo_id = "unsloth/Magistral-Small-2509-GGUF",
+    local_dir = "unsloth/Magistral-Small-2509-GGUF",
+    allow_patterns = ["*Q4_K_XL*"],
+)
