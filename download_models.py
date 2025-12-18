@@ -16,27 +16,9 @@ snapshot_download(
 )
 
 snapshot_download(
-    repo_id = "unsloth/Qwen3-235B-A22B-Thinking-2507-GGUF",
-    local_dir = "unsloth/Qwen3-235B-A22B-Thinking-2507-GGUF",
-    allow_patterns = ["*UD-Q4_K_XL*"],
-)
-
-snapshot_download(
-    repo_id = "unsloth/Qwen3-235B-A22B-Instruct-2507-GGUF",
-    local_dir = "unsloth/Qwen3-235B-A22B-Instruct-2507-GGUF",
-    allow_patterns = ["*UD-Q4_K_XL*"],
-)
-
-snapshot_download(
     repo_id = "unsloth/Qwen3-Coder-30B-A3B-Instruct-GGUF",
     local_dir = "unsloth/Qwen3-Coder-30B-A3B-Instruct-GGUF",
     allow_patterns = ["*Q4_K_XL*"],
-)
-
-snapshot_download(
-    repo_id = "unsloth/Qwen3-Coder-480B-A35B-Instruct-GGUF",
-    local_dir = "unsloth/Qwen3-Coder-480B-A35B-Instruct-GGUF",
-    allow_patterns = ["*UD-Q2_K_XL*"],
 )
 
 # GLM
@@ -66,32 +48,9 @@ snapshot_download(
 )
 
 snapshot_download(
-    repo_id = "unsloth/gpt-oss-120b-GGUF",
-    local_dir = "unsloth/gpt-oss-120b-GGUF",
-    allow_patterns = ["*Q8_K_XL*"],
+    repo_id = "unsloth/DeepSeek-R1-Distill-Qwen-32B-GGUF",
+    local_dir = "unsloth/DeepSeek-R1-Distill-Qwen-32B-GGUF",
+    allow_patterns = ["*Q4_K_M*"],
 )
 
-# DeepSeek-V3.1
-snapshot_download(
-    repo_id = "unsloth/DeepSeek-V3.1-GGUF",
-    local_dir = "unsloth/DeepSeek-V3.1-GGUF",
-    allow_patterns = ["*UD-TQ1_0*"], 
-)
 
-snapshot_download(
-    repo_id = "unsloth/DeepSeek-V3.1-GGUF",
-    local_dir = "unsloth/DeepSeek-V3.1-GGUF",
-    allow_patterns = ["*UD-Q2_K_XL*"],
-)
-
-snapshot_download(
-    repo_id = "unsloth/grok-2-GGUF",
-    local_dir = "unsloth/grok-2-GGUF",
-    allow_patterns = ["*Q4_K_XL*"],
-)
-
-snapshot_download(
-    repo_id = "unsloth/Magistral-Small-2509-GGUF",
-    local_dir = "unsloth/Magistral-Small-2509-GGUF",
-    allow_patterns = ["*Q4_K_XL*"],
-)

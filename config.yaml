@@ -74,38 +74,6 @@ models:
       --model /models/Qwen3-Coder-30B-A3B-Instruct-GGUF/Qwen3-Coder-30B-A3B-Instruct-UD-Q4_K_XL.gguf
     ttl: 86400
 
-  # >= 100B class — keep GPU layers off to avoid surprise OOM; use smaller ctx on CPU.
-  "qwen3-235b-instruct-q4":
-    cmd: |
-      ${llama-server-base}
-      ${gpu-none}
-      ${ctx-32k}
-      ${samp-instruct}
-      ${ffn-exp-cpu}
-      --model /models/Qwen3-235B-A22B-Instruct-2507-GGUF/UD-Q4_K_XL/Qwen3-235B-A22B-Instruct-2507-UD-Q4_K_XL-00001-of-00003.gguf
-    ttl: 300
-
-  "qwen3-235b-thinking-q4":
-    cmd: |
-      ${llama-server-base}
-      ${gpu-none}
-      ${ctx-32k}
-      ${samp-thinking}
-      ${ffn-exp-cpu}
-      --model /models/Qwen3-235B-A22B-Thinking-2507-GGUF/UD-Q4_K_XL/Qwen3-235B-A22B-Thinking-2507-UD-Q4_K_XL-00001-of-00003.gguf
-    ttl: 300
-
-  "qwen3-480b-coder-q2":
-    cmd: |
-      ${llama-server-base}
-      ${gpu-none}
-      ${ctx-32k}
-      ${samp-instruct}
-      ${ffn-exp-cpu}
-      --repeat-penalty 1.05
-      --model /models/Qwen3-Coder-480B-A35B-Instruct-GGUF/UD-Q2_K_XL/Qwen3-Coder-480B-A35B-Instruct-UD-Q2_K_XL-00001-of-00004.gguf
-    ttl: 300
-
   # GLM family
   "glm-4-32b-q4":
     cmd: |
@@ -114,26 +82,6 @@ models:
       ${ctx-128k}
       --jinja
       --model /models/GLM-4-32B-0414-GGUF/GLM-4-32B-0414-UD-Q4_K_XL.gguf
-    ttl: 300
-
-  "glm-4.5-air-106b-q4":
-    cmd: |
-      ${llama-server-base}
-      ${gpu-none}
-      ${ctx-32k}
-      ${ffn-exp-cpu}
-      --jinja
-      --model /models/GLM-4.5-Air-GGUF/UD-Q4_K_XL/GLM-4.5-Air-UD-Q4_K_XL-00001-of-00002.gguf
-    ttl: 300
-
-  "glm-4.5-355b-q4":
-    cmd: |
-      ${llama-server-base}
-      ${gpu-none}
-      ${ctx-32k}
-      ${ffn-exp-cpu}
-      --jinja
-      --model /models/GLM-4.5-GGUF/UD-Q4_K_XL/GLM-4.5-UD-Q4_K_XL-00001-of-00005.gguf
     ttl: 300
 
   # GPT-OSS examples
@@ -145,54 +93,7 @@ models:
       ${samp-creative}
       --jinja
       --model /models/gpt-oss-20b-GGUF/gpt-oss-20b-UD-Q8_K_XL.gguf
-    ttl: 300
-
-  "gpt-oss-120b":
-    cmd: |
-      ${llama-server-base}
-      ${gpu-none}
-      ${ctx-128k}
-      ${ffn-exp-cpu}
-      --jinja
-      --model /models/gpt-oss-120b-GGUF/UD-Q8_K_XL/gpt-oss-120b-UD-Q8_K_XL-00001-of-00002.gguf
-    ttl: 300
-
-  # DeepSeek V3.1 (very large)
-  "deepseek-v31-671b-tq1":
-    cmd: |
-      ${llama-server-base}
-      ${gpu-none}
-      ${ctx-16k}
-      ${ffn-exp-cpu}
-      --jinja
-      --cache-type-k q4_0
-      --temp 0.6 --top-p 0.95 --min-p 0.01
-      --model /models/DeepSeek-V3.1-GGUF/DeepSeek-V3.1-UD-TQ1_0.gguf
-    ttl: 300
-
-  "deepseek-v31-671b-q2":
-    cmd: |
-      ${llama-server-base}
-      ${gpu-none}
-      ${ctx-16k}
-      ${ffn-exp-cpu}
-      --jinja
-      --cache-type-k q4_0
-      --temp 0.6 --top-p 0.95 --min-p 0.01
-      --model /models/DeepSeek-V3.1-GGUF/UD-Q2_K_XL/DeepSeek-V3.1-UD-Q2_K_XL-00001-of-00006.gguf
-    ttl: 300
-
-  # Grok 2 (example)
-  "grok-2-q4":
-    cmd: |
-      ${llama-server-base}
-      ${gpu-none}
-      ${ctx-16k}
-      --jinja
-      --flash-attn off
-      --temp 1.0 --top-p 0.95 --min-p 0.01
-      --model /models/grok-2-GGUF/UD-Q4_K_XL/grok-2-UD-Q4_K_XL-00001-of-00004.gguf
-    ttl: 300
+    ttl: 3600
 
   "magistral-small-2509-q4":
     cmd: |
@@ -205,6 +106,14 @@ models:
       --model /models/Magistral-Small-2509-GGUF/Magistral-Small-2509-UD-Q4_K_XL.gguf
     ttl: 300
 
+  "deepseek-r1-qwen-32b-q4":
+    cmd: |
+      ${llama-server-base}
+      ${gpu-max}
+      ${ctx-128k}
+      --model /models/DeepSeek-R1-Distill-Qwen-32B-GGUF/DeepSeek-R1-Distill-Qwen-32B-Q4_K_M.gguf 
+    ttl: 3600
+
 groups:
   "main-swap-group":
     swap: true
@@ -213,21 +122,13 @@ groups:
       - "qwen3-30b-instruct-q4"
       - "qwen3-30b-thinking-q4"
       - "qwen3-30b-coder-q4"
-      - "qwen3-235b-instruct-q4"
-      - "qwen3-235b-thinking-q4"
-      - "qwen3-480b-coder-q2"
       - "glm-4-32b-q4"
-      - "glm-4.5-air-106b-q4"
-      - "glm-4.5-355b-q4"
       - "gpt-oss-20b"
-      - "gpt-oss-120b"
-      - "deepseek-v31-671b-tq1"
-      - "deepseek-v31-671b-q2"
-      - "grok-2-q4"
       - "magistral-small-2509-q4"
+      - "deepseek-r1-qwen-32b-q4"
 
 hooks:
   on_startup:
     preload:
-      - "qwen3-30b-coder-q4"
+      - "gpt-oss-20b"
 
