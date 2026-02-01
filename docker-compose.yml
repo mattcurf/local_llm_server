@@ -9,7 +9,7 @@ services:
       - ./models:/models
     environment:
       - HF_HOME=/models
-      - HF_TOKEN=${HF_TOKEN}
+
       - VLLM_ATTENTION_BACKEND=FLASHINFER
     networks:
       - llm-net

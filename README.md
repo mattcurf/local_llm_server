@@ -1,39 +1,31 @@
 # local_llm_server
 
-An illustration how to setup a local LLM server with OpenWEB UI interface. Run 30B, 235B, and 480B parameter models locally on you workstation!
+A local LLM server using vLLM with Open WebUI interface. Run Qwen3-Coder-30B locally on your workstation!
 
 ## Hardware Configuration 
 * Intel/AMD system with at least 24 cores
-* 256 GB DDR5
+* 64 GB DDR5
 * NVIDIA 5090 w/ 32GB VRAM
-* 1.5TB free storage space for models
 
 ## Prerequisites 
 
-System setup with:
-* kernel drivers for NVIDIA GPU
-* docker with NVIDIA-Runtime support
-* Python environment
- 
-## Steps for setup and execution
+* NVIDIA GPU drivers installed
+* Docker with NVIDIA Container Toolkit
 
-1. Download ~1.5TB of LLM models:
+## Setup and Execution
+
+1. Run the server:
 ```bash
-$ pip install -r requirements.txt
-$ python ./download_models.py 
+docker compose up -d
 ```
 
-2. Run LLM server
-```bash
-$ docker compose up -d
-```
+Models are downloaded automatically from HuggingFace on first run and cached in `./models/`.
 
-3. Connect to web UI at http://localhost:3000 (a control panel for llama-swap will be at http://localhost:8080)
+2. Connect to Open WebUI at http://localhost:3000
+
+The vLLM OpenAI-compatible API is available at http://localhost:8080/v1
 
 ## References
+* https://docs.vllm.ai
 * https://openwebui.com
-* https://github.com/mostlygeek/llama-swap
 * https://docs.unsloth.ai/basics/qwen3-coder-how-to-run-locally
-* https://docs.unsloth.ai/basics/gpt-oss-how-to-run-and-fine-tune
-* https://docs.unsloth.ai/models/grok-2
-* https://chat.z.ai
