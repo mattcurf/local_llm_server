@@ -45,90 +45,25 @@ macros:
     -ot ".ffn_.*_exps.=CPU"
 
 models:
-  # ~30B class — comfortable on 32 GB with 64k ctx. Use parallel ~3 for headroom.
-  "qwen3-30b-instruct-q4":
-    cmd: |
-      ${llama-server-base}
-      ${gpu-max}
-      ${ctx-64k}
-      ${samp-instruct}
-      --model /models/Qwen3-30B-A3B-Instruct-2507-GGUF/Qwen3-30B-A3B-Instruct-2507-UD-Q4_K_XL.gguf
-    ttl: 300
-
-  "qwen3-30b-thinking-q4":
-    cmd: |
-      ${llama-server-base}
-      ${gpu-max}
-      ${ctx-64k}
-      ${samp-thinking}
-      --model /models/Qwen3-30B-A3B-Thinking-2507-GGUF/Qwen3-30B-A3B-Thinking-2507-UD-Q4_K_XL.gguf
-    ttl: 300
-
   "qwen3-30b-coder-q4":
     cmd: |
       ${llama-server-base}
       ${gpu-max}
-      ${ctx-64k}
+      ${ctx-128k}
       ${samp-instruct}
       --repeat-penalty 1.05
       --model /models/Qwen3-Coder-30B-A3B-Instruct-GGUF/Qwen3-Coder-30B-A3B-Instruct-UD-Q4_K_XL.gguf
     ttl: 86400
-
-  # GLM family
-  "glm-4-32b-q4":
-    cmd: |
-      ${llama-server-base}
-      ${gpu-max}
-      ${ctx-128k}
-      --jinja
-      --model /models/GLM-4-32B-0414-GGUF/GLM-4-32B-0414-UD-Q4_K_XL.gguf
-    ttl: 300
-
-  # GPT-OSS examples
-  "gpt-oss-20b":
-    cmd: |
-      ${llama-server-base}
-      ${gpu-max}
-      ${ctx-16k}
-      ${samp-creative}
-      --jinja
-      --model /models/gpt-oss-20b-GGUF/gpt-oss-20b-UD-Q8_K_XL.gguf
-    ttl: 3600
-
-  "magistral-small-2509-q4":
-    cmd: |
-      ${llama-server-base}
-      ${gpu-max}
-      ${ctx-128k}
-      --jinja
-      --special
-      --temp 0.7 --top-k -1 --top-p 0.95
-      --model /models/Magistral-Small-2509-GGUF/Magistral-Small-2509-UD-Q4_K_XL.gguf
-    ttl: 300
-
-  "deepseek-r1-qwen-32b-q4":
-    cmd: |
-      ${llama-server-base}
-      ${gpu-max}
-      ${ctx-128k}
-      --model /models/DeepSeek-R1-Distill-Qwen-32B-GGUF/DeepSeek-R1-Distill-Qwen-32B-Q4_K_M.gguf 
-    ttl: 3600
 
 groups:
   "main-swap-group":
     swap: true
     exclusive: true
     members:
-      - "qwen3-30b-instruct-q4"
-      - "qwen3-30b-thinking-q4"
       - "qwen3-30b-coder-q4"
-      - "glm-4-32b-q4"
-      - "gpt-oss-20b"
-      - "magistral-small-2509-q4"
-      - "deepseek-r1-qwen-32b-q4"
 
 hooks:
   on_startup:
     preload:
-      - "gpt-oss-20b"
+      - "qwen3-30b-coder-q4"
 
