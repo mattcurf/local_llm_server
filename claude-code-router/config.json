@@ -1,0 +1,50 @@
+{
+  "LOG": true,
+  "LOG_LEVEL": "debug",
+  "API_TIMEOUT_MS": 600000,
+  "PORT": 3456,
+  "HOST": "0.0.0.0",
+  "APIKEY": "your-secret-key-here",
+  "NON_INTERACTIVE_MODE": true,
+  "CUSTOM_ROUTER_PATH": "/root/.claude-code-router/custom-router.js",
+  "Providers": [
+    {
+      "name": "local",
+      "api_base_url": "http://vllm-server:8000/v1/chat/completions",
+      "api_key": "not-needed",
+      "models": ["qwen3-coder"]
+    },
+    {
+      "name": "openrouter",
+      "api_base_url": "https://openrouter.ai/api/v1/chat/completions",
+      "api_key": "$OPENROUTER_API_KEY",
+      "models": [
+        "x-ai/grok-code-fast-1",
+        "deepseek/deepseek-v3.2",
+        "google/gemini-3-flash-preview",
+        "google/gemini-2.5-flash",
+        "minimax/minimax-m2.1",
+        "moonshotai/kimi-k2.5",
+        "anthropic/claude-sonnet-4.5",
+        "anthropic/claude-opus-4.5"
+      ],
+      "transformer": {
+        "use": ["openrouter"]
+      }
+    }
+  ],
+  "Router": {
+    "default": "local,qwen3-coder",
+    "background": "local,qwen3-coder",
+    "think": "openrouter,deepseek/deepseek-v3.2",
+    "longContext": "openrouter,google/gemini-3-flash-preview",
+    "webSearch": "openrouter,google/gemini-2.5-flash:online",
+    "image": "openrouter,google/gemini-2.5-flash",
+    "planning": "openrouter,deepseek/deepseek-v3.2",
+    "security": "openrouter,anthropic/claude-sonnet-4.5",
+    "webdevPlanning": "openrouter,moonshotai/kimi-k2.5",
+    "review": "openrouter,google/gemini-3-flash-preview",
+    "refactor": "openrouter,anthropic/claude-sonnet-4.5",
+    "longContextThreshold": 60000
+  }
+}

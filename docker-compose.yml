@@ -9,8 +9,11 @@ services:
       - ./models:/models
     environment:
       - HF_HOME=/models
-
+      - HUGGINGFACE_HUB_CACHE=/models/hub
+      - TRANSFORMERS_CACHE=/models/transformers
       - VLLM_ATTENTION_BACKEND=FLASHINFER
+      - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=compute,utility
     networks:
       - llm-net
     command:
@@ -19,19 +22,21 @@ services:
       - --host=0.0.0.0
       - --port=8000
       - --max-model-len=65536
-      - --max-num-seqs=16
-      - --gpu-memory-utilization=0.95
+      - --max-num-seqs=2
+      - --kv-cache-dtype=fp8
+      - --gpu-memory-utilization=0.90
       - --enable-chunked-prefill
       - --enable-prefix-caching
-      - --trust-remote-code
-    deploy:
-      resources:
-        reservations:
-          devices:
-          - capabilities: ["gpu"]
-            driver: nvidia
-            count: all
+      - --enable-auto-tool-choice
+      - --tool-call-parser=qwen3_coder
+    runtime: nvidia
     ipc: host
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 120s
 
   webui:
     image: ghcr.io/open-webui/open-webui
@@ -39,7 +44,8 @@ services:
     volumes:
       - webui:/app/backend/data
     depends_on:
-      - vllm-server 
+      vllm-server:
+        condition: service_healthy
     ports:
       - 3000:3000 
     environment:
@@ -55,10 +61,31 @@ services:
       - host.docker.internal:host-gateway
     restart: unless-stopped
 
+  claude-code-router:
+    image: musistudio/claude-code-router:latest
+    container_name: claude-code-router
+    restart: unless-stopped
+    ports:
+      - 3456:3456
+    volumes:
+      - ./claude-code-router:/root/.claude-code-router
+    environment:
+      - OPENROUTER_API_KEY=${OPENROUTER_API_KEY}
+    networks:
+      - llm-net
+    depends_on:
+      vllm-server:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "curl -sf http://localhost:3456/health || exit 1"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 30s
+
 networks:
   llm-net:
     driver: bridge
 
 volumes:
   webui: {}
-  models: {}
